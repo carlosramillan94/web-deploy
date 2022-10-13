@@ -1,0 +1,17 @@
+---
+- name: "UI Folder | Set application destination folder"
+  set_fact:
+    ui_folder_destination_path: "{{ service_root_folder }}/{{ service_name | upper }}/{{ service_version }}/UI"
+
+- name: "UI Folder | Copy UI Folder"
+  copy:
+    src: "{{ ui_folder_path }}"
+    dest: "{{ ui_folder_destination_path }}"
+    owner: "{{ service_user }}"
+    group: "{{ service_user_group }}"
+    mode: 0500
+  when: >
+        ui_folder_path is defined and
+        ui_folder_path|length > 0
+  notify:
+    - "Restart application"
