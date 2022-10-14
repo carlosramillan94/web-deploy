@@ -9,6 +9,7 @@
     state: directory
     owner: "{{ service_user }}"
     group: "{{ service_user_group }}"
+  become: true
   notify:
         - "UI Folder Exiist"
 
