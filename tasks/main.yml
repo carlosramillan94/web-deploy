@@ -21,8 +21,7 @@
 - import_tasks: copy_ui_folder.yml
   when: copy_ui_compressed_folder
 
-- import_tasks: services.yml
-  when: service_as_a_service
+
 
 - meta: flush_handlers
 

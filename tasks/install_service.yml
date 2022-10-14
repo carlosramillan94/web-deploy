@@ -92,3 +92,6 @@
         use_system_d
   notify:
     - "Ensure application logback symlink exist"
+
+- import_tasks: services.yml
+  when: service_as_a_service
