@@ -30,16 +30,3 @@
       ui_compressed_path|length > 0
   notify:
       - "Restart application"
-
-- name: "UI Folder | Copy UI Folder"
-  copy:
-    src: "{{ ui_compressed_path }}"
-    dest: "{{ ui_folder_destination_path }}"
-    owner: "{{ service_user }}"
-    group: "{{ service_user_group }}"
-    mode: 0500
-  when: >
-       ui_compressed_path is defined and
-       ui_compressed_path | length > 0
-  notify:
-    - "Restart application"
