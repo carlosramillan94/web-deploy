@@ -1,7 +1,7 @@
 ---
 - name: "UI Folder | Set application destination folder"
   set_fact:
-    ui_folder_destination_path: "{{ service_artifact_destination_file }}/ui"
+    ui_folder_destination_path: "{{ service_artifact_destination_folder }}/ui"
 
 - name: "UI Folder | Ensure ui folder exist"
   file:
