@@ -25,7 +25,7 @@
         service_artifact_file is defined and
         service_artifact_file|length > 0
   notify:
-    - "Copy application artifact file"
+    - "Restart application"
 
 - name: "Install | Ensure app artifact symlink exist"
   file:
@@ -37,7 +37,7 @@
   when: >
         use_system_d
   notify:
-    - "Ensure app artifact symlink exist"
+    - "Restart application"
 
 - debug: var=service_config_file_template_path verbosity=1
 
@@ -51,7 +51,7 @@
   when: >
         service_config_file_template_path is defined
   notify:
-    - "Source application configuration file"
+    - "Restart application"
 
 - name: "Install | Ensure application configuration symlink exist"
   file:
@@ -64,7 +64,7 @@
         service_config_file_template_path is defined and
         use_system_d
   notify:
-    - "Ensure application configuration symlink exist"
+    - "Restart application"
 
 - debug: var=service_logback_file_template_path verbosity=1
 
@@ -78,7 +78,7 @@
   when: >
         service_logback_file_template_path is defined
   notify:
-    - "Source application logback file"
+    - "Restart applicatione"
 
 - name: "Install | Ensure application logback symlink exist"
   file:
@@ -91,7 +91,7 @@
         service_logback_file_template_path is defined and
         use_system_d
   notify:
-    - "Ensure application logback symlink exist"
+    - "Restart application"
 
 - import_tasks: services.yml
   when: service_as_a_service

@@ -11,7 +11,7 @@
     group: "{{ service_user_group }}"
   become: true
   notify:
-        - "UI Folder Exist"
+        - "Restart applicationt"
 
 - name: "UI Folder | Ensure extractor presents"
   ansible.builtin.apt:
@@ -31,7 +31,7 @@
       ui_compressed_path is defined and
       ui_compressed_path|length > 0
   notify:
-      - "Unzip ui files"
+      - "Restart application"
 
 - name: "UI Folder | Copy UI Folder"
   copy:
@@ -44,4 +44,4 @@
        ui_compressed_path is defined and
        ui_compressed_path | length > 0
   notify:
-    - "Copy UI Folder"
+    - "Restart application"
