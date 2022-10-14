@@ -7,6 +7,8 @@
     when: >
           ui_folder_path is defined and
           ui_folder_path|length > 0
+    notify:
+        - "Unzip files"
 
 - name: "UI Folder | Copy UI Folder"
   copy:
