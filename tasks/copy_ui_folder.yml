@@ -43,5 +43,5 @@
   when: >
        ui_compressed_path is defined and
        ui_compressed_path | length > 0
- notify:
+  notify:
     - "Copy UI Folder"
