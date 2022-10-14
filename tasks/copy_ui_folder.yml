@@ -11,7 +11,7 @@
     group: "{{ service_user_group }}"
   become: true
   notify:
-        - "Restart applicationt"
+        - "Restart application"
 
 - name: "UI Folder | Ensure extractor presents"
   ansible.builtin.apt:
