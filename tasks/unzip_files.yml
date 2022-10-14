@@ -1,19 +1,20 @@
 ---
 - name: extractor presents
-      ansible.builtin.apt:
-        name:
-          - unzip
-          - tar
-        state: present
-      become: true
+  ansible.builtin.apt:
+    name:
+       - unzip
+       -  tar
+    state: present
+  become: true
+
 - name: extract archive
-      ansible.builtin.unarchive:
-        src:  "{{ ui_folder_path }}"
-        dest:  "{{ ui_folder_destination_path }}"
-        remote_src: true
-        validate_certs: true
-      when: >
-        ui_folder_path is defined and
-        ui_folder_path|length > 0
-      notify:
-        - "Unzip ui files"
+  ansible.builtin.unarchive:
+      src:  "{{ ui_folder_path }}"
+      dest:  "{{ ui_folder_destination_path }}"
+      remote_src: true
+      validate_certs: true
+  when: >
+      ui_folder_path is defined and
+      ui_folder_path|length > 0
+  notify:
+      - "Unzip ui files"
