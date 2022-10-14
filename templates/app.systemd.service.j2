@@ -1,12 +1,12 @@
 # {{ ansible_managed }}
 [Unit]
-Description={{ service_name | upper }}
+Description={{ service_name }}
 After=network.target
 
 [Service]
-ExecStart=/bin/sh -c "exec java -Duser.timezone=EST -jar {{ service_root_folder }}/{{ service_name | upper }}/{{ service_name | upper }} --spring.config.location=file:{{ service_root_folder }}/{{ service_name | upper }}/application.yml"
+ExecStart=/bin/sh -c "exec java -Duser.timezone=EST -jar {{ service_root_folder }}/{{ service_name }}/{{ service_name }} --spring.config.location=file:{{ service_root_folder }}/{{ service_name }}/application.yml"
 Restart=always
-WorkingDirectory= {{ service_root_folder }}/{{ service_name | upper }}
+WorkingDirectory= {{ service_root_folder }}/{{ service_name }}
 SuccessExitStatus=143
 
 [Install]

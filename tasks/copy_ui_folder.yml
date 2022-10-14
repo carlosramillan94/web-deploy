@@ -1,7 +1,7 @@
 ---
 - name: "UI Folder | Set application destination folder"
   set_fact:
-    ui_folder_destination_path: "{{ service_root_folder }}/{{ service_name | upper }}/{{ service_version }}/UI"
+    ui_folder_destination_path: "{{ service_artifact_destination_file }}/ui"
 
 - name: "UI Folder | Ensure ui folder exist"
   file:
@@ -11,25 +11,37 @@
     group: "{{ service_user_group }}"
   become: true
   notify:
-        - "UI Folder Exiist"
+        - "UI Folder Exist"
 
+- name: "UI Folder | Ensure extractor presents"
+  ansible.builtin.apt:
+    name:
+       - unzip
+       -  tar
+    state: present
+  become: true
 
-- import_tasks: unzip_files.yml
+- name: "UI Folder | Extract archive"
+  ansible.builtin.unarchive:
+      src:  "{{ ui_compressed_path }}"
+      dest:  "{{ ui_folder_destination_path }}"
+      remote_src: true
+      validate_certs: true
   when: >
-        ui_folder_path is defined and
-        ui_folder_path|length > 0
+      ui_compressed_path is defined and
+      ui_compressed_path|length > 0
   notify:
-      - "Unzip files"
+      - "Unzip ui files"
 
-- name: "UI Folder | Copy UI Folder"
-  copy:
-    src: "{{ ui_folder_path }}"
-    dest: "{{ ui_folder_destination_path }}"
-    owner: "{{ service_user }}"
-    group: "{{ service_user_group }}"
-    mode: 0500
-  when: >
-        ui_folder_path is defined and
-        ui_folder_path|length > 0
-  notify:
-    - "Restart application"
+  - name: "UI Folder | Copy UI Folder"
+    copy:
+      src: "{{ ui_compressed_path }}"
+      dest: "{{ ui_folder_destination_path }}"
+      owner: "{{ service_user }}"
+      group: "{{ service_user_group }}"
+      mode: 0500
+    when: >
+          ui_compressed_path is defined and
+          ui_compressed_path | length > 0
+    notify:
+      - "Copy UI Folder"

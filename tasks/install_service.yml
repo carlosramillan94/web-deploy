@@ -1,7 +1,7 @@
 ---
 - name: "Install | Ensure app root folder exist"
   file:
-    path: "{{ service_root_folder }}/{{ service_name | upper }}"
+    path: "{{ service_root_folder }}/{{ service_name }}"
     state: directory
     owner: "{{ service_user }}"
     group: "{{ service_user_group }}"
@@ -9,7 +9,7 @@
 
 - name: "Install | Ensure app version folder exist"
   file:
-    path: "{{ service_root_folder }}/{{ service_name | upper }}/{{ service_version }}"
+    path: "{{ service_root_folder }}/{{ service_name }}/{{ service_version }}"
     state: directory
     owner: "{{ service_user }}"
     group: "{{ service_user_group }}"
@@ -25,19 +25,19 @@
         service_artifact_file is defined and
         service_artifact_file|length > 0
   notify:
-    - "Restart application"
+    - "Copy application artifact file"
 
 - name: "Install | Ensure app artifact symlink exist"
   file:
-    src: "{{ service_root_folder }}/{{ service_name | upper }}/{{ service_version }}/{{ service_name }}-{{ service_version }}.{{ service_extension }}"
-    dest: "{{ service_root_folder }}/{{ service_name | upper }}/{{ service_name | upper }}"
+    src: "{{ service_root_folder }}/{{ service_name }}/{{ service_version }}/{{ service_name }}-{{ service_version }}.{{ service_extension }}"
+    dest: "{{ service_root_folder }}/{{ service_name }}/{{ service_name }}"
     state: link
     owner: "{{ service_user }}"
     group: "{{ service_user_group }}"
   when: >
         use_system_d
   notify:
-    - "Restart application"
+    - "Ensure app artifact symlink exist"
 
 - debug: var=service_config_file_template_path verbosity=1
 
@@ -51,12 +51,12 @@
   when: >
         service_config_file_template_path is defined
   notify:
-    - "Restart application"
+    - "Source application configuration file"
 
 - name: "Install | Ensure application configuration symlink exist"
   file:
     src: "{{ service_artifact_destination_folder }}/{{ service_config_file_final_name }}"
-    dest: "{{ service_root_folder }}/{{ service_name | upper }}/{{ service_config_file_final_name }}"
+    dest: "{{ service_root_folder }}/{{ service_name }}/{{ service_config_file_final_name }}"
     state: link
     owner: "{{ service_user }}"
     group: "{{ service_user_group }}"
@@ -64,7 +64,9 @@
         service_config_file_template_path is defined and
         use_system_d
   notify:
-    - "Restart application"
+    - "Ensure application configuration symlink exist"
+
+- debug: var=service_logback_file_template_path verbosity=1
 
 - name: "Install | Source application logback file"
   template:
@@ -76,12 +78,12 @@
   when: >
         service_logback_file_template_path is defined
   notify:
-    - "Restart application"
+    - "Source application logback file"
 
 - name: "Install | Ensure application logback symlink exist"
   file:
     src: "{{ service_artifact_destination_folder }}/logback-spring.xml"
-    dest: "{{ servicelications_root_folder }}/{{ service_name | upper }}/logback-spring.xml"
+    dest: "{{ servicelications_root_folder }}/{{ service_name }}/logback-spring.xml"
     state: link
     owner: "{{ service_user }}"
     group: "{{ service_user_group }}"
@@ -89,11 +91,4 @@
         service_logback_file_template_path is defined and
         use_system_d
   notify:
-    - "Restart application"
-
-- import_tasks: copy_ui_folder.yml
-  when: copy_ui_folder
-
-
-- import_tasks: services.yml
-  when: service_as_a_service
+    - "Ensure application logback symlink exist"

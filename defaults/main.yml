@@ -6,7 +6,7 @@ service_state: present
 service_extension: jar
 service_root_folder: /opt/microservices
 service_as_a_service: true
-copy_ui_folder: false
+copy_ui_compressed_folder: false
 service_stop_wait_time: 60
 service_config_file_final_name: application.yml
 service_healthcheck_urls_validate_certs: no
