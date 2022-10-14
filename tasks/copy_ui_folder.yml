@@ -3,6 +3,11 @@
   set_fact:
     ui_folder_destination_path: "{{ service_root_folder }}/{{ service_name | upper }}/{{ service_version }}/UI"
 
+- import_tasks: unzip_files.yml
+    when: >
+          ui_folder_path is defined and
+          ui_folder_path|length > 0
+
 - name: "UI Folder | Copy UI Folder"
   copy:
     src: "{{ ui_folder_path }}"
