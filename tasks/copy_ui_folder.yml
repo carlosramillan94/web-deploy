@@ -3,6 +3,16 @@
   set_fact:
     ui_folder_destination_path: "{{ service_root_folder }}/{{ service_name | upper }}/{{ service_version }}/UI"
 
+- name: "UI Folder | Ensure ui folder exist"
+  file:
+    path: "{{ ui_folder_destination_path }}"
+    state: directory
+    owner: "{{ service_user }}"
+    group: "{{ service_user_group }}"
+  notify:
+        - "UI Folder Exiist"
+
+
 - import_tasks: unzip_files.yml
   when: >
         ui_folder_path is defined and
