@@ -30,3 +30,16 @@
       ui_compressed_path|length > 0
   notify:
       - "Restart application"
+
+- name: "UI Folder | Ensure ui folder symlink exist"
+  file:
+    src: "{{ ui_folder_destination_path }}"
+    dest: "{{ service_root_folder }}/{{ service_name }}/ui"
+    state: link
+    owner: "{{ service_user }}"
+    group: "{{ service_user_group }}"
+  when: >
+        ui_compressed_path is defined and
+        ui_compressed_path|length > 0
+  notify:
+    - "Restart application"
