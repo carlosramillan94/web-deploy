@@ -78,7 +78,7 @@
   when: >
         service_logback_file_template_path is defined
   notify:
-    - "Restart applicatione"
+    - "Restart application"
 
 - name: "Install | Ensure application logback symlink exist"
   file:
