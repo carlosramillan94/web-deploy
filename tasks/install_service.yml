@@ -93,5 +93,13 @@
   notify:
     - "Restart application"
 
+- name: "Install | Ensure logs folder exist"
+  file:
+    path: "{{ service_root_folder }}/{{ service_name }}/logs"
+    state: directory
+    owner: "{{ service_user }}"
+    group: "{{ service_user_group }}"
+  become: true
+
 - import_tasks: services.yml
   when: service_as_a_service
