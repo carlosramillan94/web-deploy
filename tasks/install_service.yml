@@ -83,7 +83,7 @@
 - name: "Install | Ensure application logback symlink exist"
   file:
     src: "{{ service_artifact_destination_folder }}/logback-spring.xml"
-    dest: "{{ servicelications_root_folder }}/{{ service_name }}/logback-spring.xml"
+    dest: "{{ service_root_folder }}/{{ service_name }}/logback-spring.xml"
     state: link
     owner: "{{ service_user }}"
     group: "{{ service_user_group }}"
